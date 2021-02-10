@@ -1,9 +1,17 @@
 import { Component } from "react";
 
+
+enum toDo{
+  toDO,
+  doing,
+  done
+}
+
 export default class Todos extends Component {
   state = {
     newTodo: "",
     todos: ["hello there", "general kenobi"],
+    status: toDo.toDO,
   };
 
   onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -18,6 +26,27 @@ export default class Todos extends Component {
     const todos = this.state.todos.filter((_, index) => index !== removeIndex);
     this.setState({ todos });
   };
+  toggleStatus() {
+    switch (this.state.status) {
+      case toDo.toDO:
+        this.setState({
+          status: toDo.doing
+        })
+        return
+      case toDo.doing:
+        this.setState({
+          status: toDo.done
+        })
+        return
+
+       case toDo.done:
+        this.setState({
+          status: toDo.toDO
+        })
+        return
+        default:
+    }
+  }
 
   render() {
     return (
@@ -76,6 +105,12 @@ export default class Todos extends Component {
                 onClick={() => this.removeTodo(i)}
               >
                 &times;
+              </span>
+              <span
+                style={{ cursor: "pointer" }}
+                onClick={() => this.toggleStatus()}
+              >
+                &lt;	
               </span>
             </div>
           ))}
